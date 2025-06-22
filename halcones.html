@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base de Datos Halcones de Tekax</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            height: 50px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .page-title {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .data-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            padding-left: 2.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .search-box::before {
+            content: "🔍";
+            position: absolute;
+            left: 0.8rem;
+            top: 0.5rem;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .filter-controls select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+        }
+        
+        .export-btn {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .data-table th {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        .data-table td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .data-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .pagination button.active {
+            background-color: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+        
+        footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin-left: 0;
+            }
+            
+            .data-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .search-box {
+                max-width: 100%;
+            }
+            
+            .filter-controls {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <img src="https://via.placeholder.com/150x50?text=Halcones+Tekax" alt="Logo Halcones de Tekax" class="logo">
+                <nav>
+                    <ul>
+                        <li><a href="#">Inicio</a></li>
+                        <li><a href="#">Registros</a></li>
+                        <li><a href="#">Reportes</a></li>
+                        <li><a href="#">Configuración</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h1 class="page-title">Base de Datos Halcones de Tekax</h1>
+            
+            <div class="data-controls">
+                <div class="search-box">
+                    <input type="text" placeholder="Buscar en los registros..." id="searchInput">
+                </div>
+                
+                <div class="filter-controls">
+                    <select id="filterCategory">
+                        <option value="">Todas las categorías</option>
+                        <option value="halcon">Halcones</option>
+                        <option value="entrenador">Entrenadores</option>
+                        <option value="evento">Eventos</option>
+                    </select>
+                    
+                    <select id="filterYear">
+                        <option value="">Todos los años</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                    </select>
+                    
+                    <button class="export-btn" id="exportBtn">
+                        <span>Exportar</span>
+                        <span>↓</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Edad</th>
+                            <th>Entrenador</th>
+                            <th>Fecha Registro</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Datos del Excel se cargarán aquí -->
+                        <tr>
+                            <td>001</td>
+                            <td>Halcon Fuego</td>
+                            <td>Adulto</td>
+                            <td>3 años</td>
+                            <td>Juan Pérez</td>
+                            <td>15/03/2022</td>
+                            <td>Activo</td>
+                        </tr>
+                        <tr>
+                            <td>002</td>
+                            <td>Halcon Rayo</td>
+                            <td>Joven</td>
+                            <td>1 año</td>
+                            <td>María López</td>
+                            <td>22/07/2023</td>
+                            <td>Activo</td>
+                        </tr>
+                        <tr>
+                            <td>003</td>
+                            <td>Halcon Estrella</td>
+                            <td>Adulto</td>
+                            <td>4 años</td>
+                            <td>Carlos Ruiz</td>
+                            <td>10/01/2021</td>
+                            <td>Retirado</td>
+                        </tr>
+                        <tr>
+                            <td>004</td>
+                            <td>Halcon Luna</td>
+                            <td>Joven</td>
+                            <td>2 años</td>
+                            <td>Ana García</td>
+                            <td>05/12/2022</td>
+                            <td>Activo</td>
+                        </tr>
+                        <tr>
+                            <td>005</td>
+                            <td>Halcon Sol</td>
+                            <td>Adulto</td>
+                            <td>5 años</td>
+                            <td>Juan Pérez</td>
+                            <td>18/09/2020</td>
+                            <td>Activo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="pagination">
+                <button disabled>← Anterior</button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>Siguiente →</button>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 Halcones de Tekax - Todos los derechos reservados</p>
+            <p>Contacto: info@halconestekax.com | Tel: 999 123 4567</p>
+        </div>
+    </footer>
+
+    <script>
+        // Funcionalidad básica para la tabla
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#tableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+        
+        document.getElementById('filterCategory').addEventListener('change', function(e) {
+            const category = e.target.value;
+            const rows = document.querySelectorAll('#tableBody tr');
+            
+            if (!category) {
+                rows.forEach(row => row.style.display = '');
+                return;
+            }
+            
+            rows.forEach(row => {
+                const rowCategory = row.cells[2].textContent.toLowerCase();
+                if (rowCategory.includes(category)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+        
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            alert('Los datos se han exportado correctamente');
+            // En una implementación real, esto generaría un archivo Excel/CSV
+        });
+    </script>
+</body>
+</html>
